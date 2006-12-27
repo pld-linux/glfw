@@ -1,0 +1,175 @@
+--- glfw-2.5/lib/x11/Makefile.x11.in.orig	2003-01-31 22:52:48.000000000 +0100
++++ glfw-2.5/lib/x11/Makefile.x11.in	2006-12-27 23:35:48.842915082 +0100
+@@ -2,7 +2,7 @@
+ ##########################################################################
+ # Default: Build GLFW static library
+ ##########################################################################
+-default: libglfw.a
++default: libglfw.la
+ 
+ 
+ ##########################################################################
+@@ -11,99 +11,101 @@
+ MKLIB    = ar
+ LIBFLAGS = -rcs
+ 
++LIBTOOL  = libtool --tag=CC
++LIBDIR   = /usr/lib
+ 
+ ##########################################################################
+ # Object files which are part of the GLFW library
+ ##########################################################################
+ OBJS = \
+-       enable.o \
+-       fullscreen.o \
+-       glext.o \
+-       image.o \
+-       init.o \
+-       input.o \
+-       joystick.o \
+-       tga.o \
+-       thread.o \
+-       time.o \
+-       window.o \
+-       x11_enable.o \
+-       x11_fullscreen.o \
+-       x11_glext.o \
+-       x11_init.o \
+-       x11_joystick.o \
+-       x11_keysym2unicode.o \
+-       x11_thread.o \
+-       x11_time.o \
+-       x11_window.o
++       enable.lo \
++       fullscreen.lo \
++       glext.lo \
++       image.lo \
++       init.lo \
++       input.lo \
++       joystick.lo \
++       tga.lo \
++       thread.lo \
++       time.lo \
++       window.lo \
++       x11_enable.lo \
++       x11_fullscreen.lo \
++       x11_glext.lo \
++       x11_init.lo \
++       x11_joystick.lo \
++       x11_keysym2unicode.lo \
++       x11_thread.lo \
++       x11_time.lo \
++       x11_window.lo
+ 
+ 
+ ##########################################################################
+ # Rule for building library
+ ##########################################################################
+-libglfw.a: $(OBJS)
+-	$(MKLIB) $(LIBFLAGS) $@ $(OBJS)
++libglfw.la: $(OBJS)
++	$(LIBTOOL) --mode=link $(CC) $(LFLAGS_LINK) -o $@ $(OBJS) $(LIBS) -rpath $(LIBDIR)
+ 
+ 
+ ##########################################################################
+ # Rules for building library object files
+ ##########################################################################
+-enable.o: ../enable.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../enable.c
++enable.lo: ../enable.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../enable.c
+ 
+-fullscreen.o: ../fullscreen.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../fullscreen.c
++fullscreen.lo: ../fullscreen.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../fullscreen.c
+ 
+-glext.o: ../glext.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../glext.c
++glext.lo: ../glext.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../glext.c
+ 
+-image.o: ../image.c ../internal.h platform.h
+-	$(CC) $(CFLAGS_SPEED) -o $@ ../image.c
++image.lo: ../image.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS_SPEED) -o $@ ../image.c
+ 
+-init.o: ../init.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../init.c
++init.lo: ../init.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../init.c
+ 
+-input.o: ../input.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../input.c
++input.lo: ../input.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../input.c
+ 
+-joystick.o: ../joystick.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../joystick.c
++joystick.lo: ../joystick.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../joystick.c
+ 
+-tga.o: ../tga.c ../internal.h platform.h
+-	$(CC) $(CFLAGS_SPEED) -o $@ ../tga.c
++tga.lo: ../tga.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS_SPEED) -o $@ ../tga.c
+ 
+-thread.o: ../thread.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../thread.c
++thread.lo: ../thread.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../thread.c
+ 
+-time.o: ../time.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../time.c
++time.lo: ../time.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../time.c
+ 
+-window.o: ../window.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ ../window.c
++window.lo: ../window.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ ../window.c
+ 
+-x11_enable.o: x11_enable.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_enable.c
++x11_enable.lo: x11_enable.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_enable.c
+ 
+-x11_fullscreen.o: x11_fullscreen.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_fullscreen.c
++x11_fullscreen.lo: x11_fullscreen.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_fullscreen.c
+ 
+-x11_glext.o: x11_glext.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_glext.c
++x11_glext.lo: x11_glext.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_glext.c
+ 
+-x11_init.o: x11_init.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_init.c
++x11_init.lo: x11_init.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_init.c
+ 
+-x11_joystick.o: x11_joystick.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_joystick.c
++x11_joystick.lo: x11_joystick.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_joystick.c
+ 
+-x11_thread.o: x11_thread.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_thread.c
++x11_thread.lo: x11_thread.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_thread.c
+ 
+-x11_time.o: x11_time.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_time.c
++x11_time.lo: x11_time.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_time.c
+ 
+-x11_window.o: x11_window.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_window.c
++x11_window.lo: x11_window.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_window.c
+ 
+-x11_keysym2unicode.o: x11_keysym2unicode.c ../internal.h platform.h
+-	$(CC) $(CFLAGS) -o $@ x11_keysym2unicode.c
++x11_keysym2unicode.lo: x11_keysym2unicode.c ../internal.h platform.h
++	$(LIBTOOL) --mode=compile $(CC) $(CFLAGS) -o $@ x11_keysym2unicode.c
