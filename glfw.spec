@@ -1,5 +1,5 @@
 Summary:	Free, portable framework for OpenGL application development
-Summary(pl):	Wolnodostêpny, przeno¶ny szkielet do tworzenia aplikacji OpenGL
+Summary(pl.UTF-8):   WolnodostÄ™pny, przenoÅ›ny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
 Version:	2.5.0
 Release:	2
@@ -32,23 +32,23 @@ reading textures from files and more.
 GLFW is available for Windows, MacOS X, Unix-like systems such as
 Linux and FreeBSD, and for AmigaOS and DOS.
 
-%description -l pl
-GLFW to wolnodostêpny, maj±cy otwarte ¼ród³a, przeno¶ny szkielet do
-tworzenia aplikacji OpenGL. W skrócie jest to pojedyncza biblioteka
-udostêpniaj±ca potê¿ne, przeno¶ne API do zadañ zale¿nych od systemu
-operacyjnego, takich jak otwieranie okna OpenGL, odczyt wej¶cia z
+%description -l pl.UTF-8
+GLFW to wolnodostÄ™pny, majÄ…cy otwarte ÅºrÃ³dÅ‚a, przenoÅ›ny szkielet do
+tworzenia aplikacji OpenGL. W skrÃ³cie jest to pojedyncza biblioteka
+udostÄ™pniajÄ…ca potÄ™Å¼ne, przenoÅ›ne API do zadaÅ„ zaleÅ¼nych od systemu
+operacyjnego, takich jak otwieranie okna OpenGL, odczyt wejÅ›cia z
 klawiatury, myszy i joysticka.
 
-Zawiera tak¿e funkcje do odczytu zegara o wysokiej rozdzielczo¶ci,
-dostêpu do rozszerzeñ OpenGL, tworzenia i synchronizowania w±tków,
-odczytu tekstur z plików i innych zadañ.
+Zawiera takÅ¼e funkcje do odczytu zegara o wysokiej rozdzielczoÅ›ci,
+dostÄ™pu do rozszerzeÅ„ OpenGL, tworzenia i synchronizowania wÄ…tkÃ³w,
+odczytu tekstur z plikÃ³w i innych zadaÅ„.
 
-GLFW jest dostêpny dla Windows, MacOS X, systemów uniksowych takich
+GLFW jest dostÄ™pny dla Windows, MacOS X, systemÃ³w uniksowych takich
 jak Linux czy FreeBSD oraz dla AmigaOS i DOS-a.
 
 %package devel
 Summary:	Header files for GLFW library
-Summary(pl):	Pliki nag³ówkowe biblioteki GLFW
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe biblioteki GLFW
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL-GLX-devel
@@ -58,19 +58,19 @@ Requires:	xorg-lib-libXxf86vm-devel
 %description devel
 Header files for GLFW library.
 
-%description devel -l pl
-Pliki nag³ówkowe biblioteki GLFW.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe biblioteki GLFW.
 
 %package static
 Summary:	Static GLFW library
-Summary(pl):	Statyczna biblioteka GLFW
+Summary(pl.UTF-8):   Statyczna biblioteka GLFW
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static GLFW library.
 
-%description static -l pl
+%description static -l pl.UTF-8
 Statyczna biblioteka GLFW.
 
 %prep
