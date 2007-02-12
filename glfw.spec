@@ -1,5 +1,5 @@
 Summary:	Free, portable framework for OpenGL application development
-Summary(pl.UTF-8):   Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
+Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
 Version:	2.5.0
 Release:	2
@@ -48,7 +48,7 @@ jak Linux czy FreeBSD oraz dla AmigaOS i DOS-a.
 
 %package devel
 Summary:	Header files for GLFW library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki GLFW
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki GLFW
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL-GLX-devel
@@ -63,7 +63,7 @@ Pliki nagłówkowe biblioteki GLFW.
 
 %package static
 Summary:	Static GLFW library
-Summary(pl.UTF-8):   Statyczna biblioteka GLFW
+Summary(pl.UTF-8):	Statyczna biblioteka GLFW
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
