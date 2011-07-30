@@ -1,0 +1,71 @@
+--- glfw-2.7.1/lib/x11/Makefile.x11.in.orig	2009-11-08 20:22:48.000000000 +0100
++++ glfw-2.7.1/lib/x11/Makefile.x11.in	2011-07-30 19:24:16.657456597 +0200
+@@ -3,7 +3,8 @@
+ # Installation prefix (default to /usr/local)
+ ##########################################################################
+ PREFIX ?= /usr/local
+-
++LIBDIR ?= $(PREFIX)/lib
++DESTDIR ?= 
+ 
+ ##########################################################################
+ # Default: Build GLFW static library
+@@ -26,25 +27,25 @@ HEADERS     = ../../include/GL/glfw.h ..
+ # Install GLFW static library
+ ##########################################################################
+ install: libglfw.a libglfw.pc
+-	$(INSTALL) -d $(PREFIX)/lib
+-	$(INSTALL) -c -m 644 libglfw.a $(PREFIX)/lib/libglfw.a
+-	$(INSTALL) -d $(PREFIX)/include/GL
+-	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(PREFIX)/include/GL/glfw.h
+-	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
+-	$(INSTALL) -c -m 644 libglfw.pc $(PREFIX)/lib/pkgconfig/libglfw.pc
++	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
++	$(INSTALL) -c -m 644 libglfw.a $(DESTDIR)$(LIBDIR)/libglfw.a
++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/include/GL
++	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(DESTDIR)$(PREFIX)/include/GL/glfw.h
++	$(INSTALL) -d $(DESTDIR)$(LIBDIR)/pkgconfig
++	$(INSTALL) -c -m 644 libglfw.pc $(DESTDIR)$(LIBDIR)/pkgconfig/libglfw.pc
+ 
+ 
+ ##########################################################################
+ # Install GLFW static and shared libraries
+ ##########################################################################
+ dist-install: libglfw.a libglfw.so libglfw.pc
+-	$(INSTALL) -d $(PREFIX)/lib
+-	$(INSTALL) -c -m 644 libglfw.a $(PREFIX)/lib/libglfw.a
+-	$(INSTALL) -c -m 644 libglfw.so $(PREFIX)/lib/libglfw.so
+-	$(INSTALL) -d $(PREFIX)/include/GL
+-	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(PREFIX)/include/GL/glfw.h
+-	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
+-	$(INSTALL) -c -m 644 libglfw.pc $(PREFIX)/lib/pkgconfig/libglfw.pc
++	$(INSTALL) -d $(DESTDIR)$(LIBDIR)
++	$(INSTALL) -c -m 644 libglfw.a $(DESTDIR)$(LIBDIR)/libglfw.a
++	$(INSTALL) -c -m 644 libglfw.so $(DESTDIR)$(LIBDIR)/libglfw.so
++	$(INSTALL) -d $(DESTDIR)$(PREFIX)/include/GL
++	$(INSTALL) -c -m 644 ../../include/GL/glfw.h $(DESTDIR)$(PREFIX)/include/GL/glfw.h
++	$(INSTALL) -d $(DESTDIR)$(LIBDIR)/pkgconfig
++	$(INSTALL) -c -m 644 libglfw.pc $(DESTDIR)$(LIBDIR)/pkgconfig/libglfw.pc
+ 
+ 
+ ##########################################################################
+@@ -105,7 +106,7 @@ SHARED_OBJS = \
+ # Rule for building libglfw.pc
+ ##########################################################################
+ libglfw.pc: libglfw.pc.in
+-	$(SED) -e 's,\@PREFIX\@,$(PREFIX),' libglfw.pc.in > libglfw.pc
++	$(SED) -e 's,\@PREFIX\@,$(PREFIX),;s,\@LIBDIR\@,$(LIBDIR),' libglfw.pc.in > libglfw.pc
+ 
+ 
+ ##########################################################################
+--- glfw-2.7.1/compile.sh.orig	2011-07-30 18:04:22.507296072 +0200
++++ glfw-2.7.1/compile.sh	2011-07-30 19:23:56.354122584 +0200
+@@ -643,7 +643,7 @@ echo "$self: Creating $MKNAME" >&5
+ cat > "$MKNAME" <<EOF
+ prefix=@PREFIX@
+ exec_prefix=@PREFIX@
+-libdir=@PREFIX@/lib
++libdir=@LIBDIR@
+ includedir=@PREFIX@/include
+ 
+ Name: GLFW

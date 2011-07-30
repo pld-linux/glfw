@@ -1,77 +1,49 @@
---- glfw-2.5/compile.sh.orig	2004-07-24 22:36:46.000000000 +0200
-+++ glfw-2.5/compile.sh	2006-12-27 23:32:06.166225461 +0100
-@@ -76,8 +76,6 @@
-   CC=${CC-cc}
- fi
- CFLAGS=
--LFLAGS=
--INCS=
- LIBS="-lGL -lX11"
- 
- 
-@@ -93,34 +91,7 @@
+--- glfw-2.7.1/compile.sh.orig	2011-06-28 05:55:28.000000000 +0200
++++ glfw-2.7.1/compile.sh	2011-07-30 18:04:01.660628707 +0200
+@@ -107,35 +107,8 @@
  ##########################################################################
- echo "Checking for X11 libraries location... " 1>&6
+ echo -n "Checking for X11 libraries location... " 1>&6
  
--# X11R6 in /usr/X11/lib ?
 -if [ -r "/usr/X11/lib" ]; then
-- LFLAGS="$LFLAGS -L/usr/X11/lib"
-- INCS="-I/usr/X11/include"
-- echo " X11 libraries location: /usr/X11/lib" 1>&6
--# X11R6 in /usr/X11R6/lib ?
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/usr/X11/lib"
+-  GLFW_CFLAGS="-I/usr/X11/include $GLFW_CFLAGS"
+-  echo "/usr/X11/lib" 1>&6
+-elif [ -r "/usr/X11R7/lib" ]; then
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/usr/X11R7/lib"
+-  GLFW_CFLAGS="-I/usr/X11R7/include $GLFW_CFLAGS"
+-  echo "/usr/X11R7/lib" 1>&6
 -elif [ -r "/usr/X11R6/lib" ]; then
-- LFLAGS="$LFLAGS -L/usr/X11R6/lib"
-- INCS="-I/usr/X11R6/include"
-- echo " X11 libraries location: /usr/X11R6/lib" 1>&6
--# X11R5 in /usr/X11R5/lib ?
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/usr/X11R6/lib"
+-  GLFW_CFLAGS="-I/usr/X11R6/include $GLFW_CFLAGS"
+-  echo "/usr/X11R6/lib" 1>&6
 -elif [ -r "/usr/X11R5/lib" ]; then
-- LFLAGS="$LFLAGS -L/usr/X11R5/lib"
-- INCS="-I/usr/X11R5/include"
-- echo " X11 libraries location: /usr/X11R5/lib" 1>&6
--# X11R6 in /opt/X11R6/lib (e.g. QNX)?
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/usr/X11R5/lib"
+-  GLFW_CFLAGS="-I/usr/X11R5/include $GLFW_CFLAGS"
+-  echo "/usr/X11R5/lib" 1>&6
 -elif [ -r "/opt/X11R6/lib" ]; then
-- LFLAGS="$LFLAGS -L/opt/X11R6/lib"
-- INCS="-I/opt/X11R6/include"
-- echo " X11 libraries location: /opt/X11R6/lib" 1>&6
--# X11R6 in /usr/X/lib ?
+-  # This location is used on QNX
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/opt/X11R6/lib"
+-  GLFW_CFLAGS="-I/opt/X11R6/include $GLFW_CFLAGS"
+-  echo "/opt/X11R6/lib" 1>&6
 -elif [ -r "/usr/X/lib" ]; then
-- LFLAGS="$LFLAGS -L/usr/X/lib"
-- INCS="-I/usr/X/include"
-- echo " X11 libraries location: /usr/X/lib" 1>&6
+-  GLFW_LFLAGS="$GLFW_LFLAGS -L/usr/X/lib"
+-  GLFW_CFLAGS="-I/usr/X/include $GLFW_CFLAGS"
+-  echo "/usr/X/lib" 1>&6
 -else
-  echo " X11 libraries location: Unknown (assuming linker will find them)" 1>&6
+   # TODO: Detect and report X11R7 in /usr/lib
+   echo "unknown (assuming linker will find them)" 1>&6
 -fi
- echo " " 1>&6
- CFLAGS="$CFLAGS $INCS"
- 
-@@ -145,9 +116,6 @@
- rm -f conftest*
- 
- echo " Using GNU C: ""$use_gcc" 1>&6
--if [ "x$use_gcc" = xyes ]; then
--  CC=gcc
--fi
- echo " " 1>&6
  
  
-@@ -429,13 +397,13 @@
- # Post fixups
  ##########################################################################
- if [ "x$use_gcc" = xyes ]; then
--  CFLAGS_SPEED="-c -I. -I.. $CFLAGS -O3 -ffast-math -Wall"
--  CFLAGS="-c -I. -I.. $CFLAGS -Os -Wall"
--  CFLAGS_LINK="$INCS -O3 -ffast-math -Wall"
--else
--  CFLAGS_SPEED="-c -I. -I.. $CFLAGS -O"
--  CFLAGS="-c -I. -I.. $CFLAGS -O"
--  CFLAGS_LINK="$INCS -O"
-+  CFLAGS_SPEED="-c -I. -I.. $CFLAGS $OPT -ffast-math -Wall"
-+  CFLAGS="-c -I. -I.. $CFLAGS $OPT -Wall"
-+  CFLAGS_LINK="$INCS $OPT -ffast-math -Wall"
-+else
-+  CFLAGS_SPEED="-c -I. -I.. $CFLAGS $OPT"
-+  CFLAGS="-c -I. -I.. $CFLAGS $OPT"
-+  CFLAGS_LINK="$INCS $OPT"
+@@ -571,9 +544,7 @@
+ 
+ if [ "x$CFLAGS" = x ]; then
+   if [ "x$use_gcc" = xyes ]; then
+-    GLFW_CFLAGS="$GLFW_CFLAGS -O2 -Wall"
+-  else
+-    GLFW_CFLAGS="$GLFW_CFLAGS -O"
++    GLFW_CFLAGS="$GLFW_CFLAGS -Wall"
+   fi
  fi
- CFLAGS_LINK="-I../include $CFLAGS_LINK"
- LFLAGS_LINK="-L../lib/x11 $LFLAGS -lglfw -lGLU $LIBS -lm"
+ 

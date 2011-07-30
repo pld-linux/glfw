@@ -1,15 +1,14 @@
 Summary:	Free, portable framework for OpenGL application development
 Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
-Version:	2.5.0
-Release:	4
+Version:	2.7.1
+Release:	1
 License:	BSD-like
 Group:		Libraries
-Source0:	http://dl.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
-# Source0-md5:	c6dffefbfbe4415c915851b09e76edd9
+Source0:	http://downloads.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
+# Source0-md5:	1cf551916124fccfc303fa4e50080f91
 Patch0:		%{name}-opt.patch
-Patch1:		%{name}-shared.patch
-Patch2:		%{name}-pic.patch
+Patch1:		%{name}-libdir.patch
 URL:		http://glfw.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
@@ -74,28 +73,29 @@ Static GLFW library.
 Statyczna biblioteka GLFW.
 
 %prep
-%setup -q -n %{name}-2.5
+%setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 CC="%{__cc}" \
 LFLAGS="%{rpmldflags}" \
-INCS= \
-OPT="%{rpmcflags}" \
-./compile.sh
+CFLAGS="%{rpmcflags}" \
+sh ./compile.sh
 
 %{__make} -C lib/x11 -f Makefile.x11 \
-	LFLAGS_LINK="%{rpmldflags} -lGL -lXxf86vm -lX11 -lpthread" \
+	PREFIX=%{_prefix} \
 	LIBDIR=%{_libdir}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}/GL,%{_examplesdir}/%{name}-%{version}}
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
-libtool --mode=install install lib/x11/libglfw.la $RPM_BUILD_ROOT%{_libdir}
-install include/GL/glfw.h $RPM_BUILD_ROOT%{_includedir}/GL
+%{__make} -C lib/x11 -f Makefile.x11 dist-install \
+	DESTDIR=$RPM_BUILD_ROOT \
+	PREFIX=%{_prefix} \
+	LIBDIR=%{_libdir}
+
 install examples/{*.c,*.tga,Makefile.x11} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %clean
@@ -106,15 +106,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc license.txt readme.html images
-%attr(755,root,root) %{_libdir}/libglfw.so.*.*.*
+%doc COPYING.txt readme.html
+%attr(755,root,root) %{_libdir}/libglfw.so
 
 %files devel
 %defattr(644,root,root,755)
-%doc docs/*.pdf
-%attr(755,root,root) %{_libdir}/libglfw.so
-%{_libdir}/libglfw.la
+%doc docs/GLFW*.pdf
 %{_includedir}/GL/glfw.h
+%{_pkgconfigdir}/libglfw.pc
 %{_examplesdir}/%{name}-%{version}
 
 %files static
