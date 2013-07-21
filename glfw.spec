@@ -1,19 +1,21 @@
 Summary:	Free, portable framework for OpenGL application development
 Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
-Version:	2.7.2
+Version:	3.0.1
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
-# Source0-md5:	bb4f33b43e40f8cd3015a653dca02ed1
-Patch0:		%{name}-opt.patch
-Patch1:		%{name}-libdir.patch
+# Source0-md5:	fe515f10ca2201006cda4c367f1e95b5
 URL:		http://glfw.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
-BuildRequires:	libtool
+BuildRequires:	cmake >= 2.8
+BuildRequires:	doxygen
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -52,7 +54,10 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL-GLX-devel
 Requires:	xorg-lib-libX11-devel
+Requires:	xorg-lib-libXi-devel
+Requires:	xorg-lib-libXrandr-devel
 Requires:	xorg-lib-libXxf86vm-devel
+Obsoletes:	glfw-static
 
 %description devel
 Header files for GLFW library.
@@ -60,43 +65,22 @@ Header files for GLFW library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki GLFW.
 
-%package static
-Summary:	Static GLFW library
-Summary(pl.UTF-8):	Statyczna biblioteka GLFW
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-
-%description static
-Static GLFW library.
-
-%description static -l pl.UTF-8
-Statyczna biblioteka GLFW.
-
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
-CC="%{__cc}" \
-LFLAGS="%{rpmldflags}" \
-CFLAGS="%{rpmcflags}" \
-sh ./compile.sh
-
-%{__make} -C lib/x11 -f Makefile.x11 \
-	PREFIX=%{_prefix} \
-	LIBDIR=%{_libdir}
+install -d build
+cd build
+%cmake ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
-%{__make} -C lib/x11 -f Makefile.x11 dist-install \
-	DESTDIR=$RPM_BUILD_ROOT \
-	PREFIX=%{_prefix} \
-	LIBDIR=%{_libdir}
+%{__make} -C build install \
+	DESTDIR=$RPM_BUILD_ROOT
 
-install examples/{*.c,*.tga,Makefile.x11} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+install examples/{*.c,CMakeLists.txt} $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -106,16 +90,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING.txt readme.html
-%attr(755,root,root) %{_libdir}/libglfw.so
+%doc COPYING.txt README.md
+%attr(755,root,root) %{_libdir}/libglfw.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libglfw.so.3
 
 %files devel
 %defattr(644,root,root,755)
-%doc docs/{Reference,UsersGuide}.pdf
-%{_includedir}/GL/glfw.h
-%{_pkgconfigdir}/libglfw.pc
+%doc docs/html/*
+%attr(755,root,root) %{_libdir}/libglfw.so
+%dir %{_includedir}/GLFW
+%{_includedir}/GLFW/glfw3*.h
+%{_pkgconfigdir}/glfw3.pc
+%{_libdir}/cmake/glfw
 %{_examplesdir}/%{name}-%{version}
-
-%files static
-%defattr(644,root,root,755)
-%{_libdir}/libglfw.a
