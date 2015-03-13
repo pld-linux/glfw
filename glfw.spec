@@ -2,7 +2,7 @@ Summary:	Free, portable framework for OpenGL application development
 Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
 Version:	3.0.4
-Release:	1
+Release:	2
 License:	BSD-like
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
