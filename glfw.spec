@@ -1,20 +1,22 @@
 Summary:	Free, portable framework for OpenGL application development
 Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
-Version:	3.0.4
-Release:	2
+Version:	3.1.2
+Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
-# Source0-md5:	133a9faed6f1fbd527551a7e42aeb4f9
+# Source0-md5:	0bf912994a920ce7a2d8172b3438bcfe
 URL:		http://glfw.sourceforge.net/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
-BuildRequires:	cmake >= 2.8
+BuildRequires:	cmake >= 2.8.12
 BuildRequires:	doxygen
 BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXi-devel
+BuildRequires:	xorg-lib-libXinerama-devel
 BuildRequires:	xorg-lib-libXrandr-devel
 BuildRequires:	xorg-lib-libXxf86vm-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -54,7 +56,9 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	OpenGL-GLX-devel
 Requires:	xorg-lib-libX11-devel
+Requires:	xorg-lib-libXcursor-devel
 Requires:	xorg-lib-libXi-devel
+Requires:	xorg-lib-libXinerama-devel
 Requires:	xorg-lib-libXrandr-devel
 Requires:	xorg-lib-libXxf86vm-devel
 Obsoletes:	glfw-static
