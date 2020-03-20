@@ -1,16 +1,16 @@
 Summary:	Free, portable framework for OpenGL application development
 Summary(pl.UTF-8):	Wolnodostępny, przenośny szkielet do tworzenia aplikacji OpenGL
 Name:		glfw
-Version:	3.2.1
+Version:	3.3.2
 Release:	1
 License:	BSD-like
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/glfw/%{name}-%{version}.tar.bz2
-# Source0-md5:	66e947d7fdba87d2d570d5afe1428835
-URL:		http://glfw.sourceforge.net/
+# Source0-md5:	bcd8fb089db61a8fecd8cc1f783efb82
+URL:		https://www.glfw.org/
 BuildRequires:	OpenGL-GLU-devel
 BuildRequires:	OpenGL-GLX-devel
-BuildRequires:	cmake >= 2.8.12
+BuildRequires:	cmake >= 3.0
 BuildRequires:	doxygen
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXcursor-devel
@@ -94,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING.txt README.md
+%doc LICENSE.md README.md
 %attr(755,root,root) %{_libdir}/libglfw.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libglfw.so.3
 
